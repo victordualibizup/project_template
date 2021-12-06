@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 # TODO: FIX VERSION VARIABLE PROPERLY
 # Model package name
-NAME = "project_name"  # Change this string to the proper project name
+NAME = "project_template"  # TODO: Change this string to the proper project name.
 # Current Version
 VERSION = "0.0.1"
 
@@ -21,9 +21,9 @@ with open("README.md") as f:
 setup(
     name=NAME,
     version=VERSION,
-    description="A template for data science model.",  # Fill the description with the
+    description="A template for data science models.",  # TODO: Fill the project's description here.
     long_description=LONG_DESCRIPTION,
-    author="ABC",
+    author="ABC",  # TODO: Declate the author for this project (for example, your own name).
     packages=find_packages(exclude=("tests", "docs")),
     entry_points={
         "console_scripts": ["{name}={name}.main:cli".format(name=NAME)],
