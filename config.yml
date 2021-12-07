@@ -2,5 +2,10 @@
 author: Victor Rabêllo
 squad: Bella-Insights
 
+# AWS Resources
+bucket_name: testebella
+train_data: houses_train.csv
+test_data: houses_test.csv
+
 # Variables
-target: ibu
+target: SalePrice

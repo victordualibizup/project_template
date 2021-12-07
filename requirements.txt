@@ -15,4 +15,21 @@ fire==0.4.0
 flask==2.0.2
 gunicorn==20.1.0
 
+# Jupyter Notebook Kernel
+jupyter==1.0.0
 
+# Data Analysis
+pandas==1.3.4
+
+# Environment Variables
+python-dotenv==0.19.2
+
+# YAML Converter
+strictyaml==1.4.4
+ruamel.yaml==0.16.12
+
+# Typing
+pydantic==1.8.2
+
+# Scikit-Learn
+scikit-learn==1.0.1
