@@ -4,9 +4,9 @@ name: Security Pipeline
 
 on:
   push:
-    branches: [ main, qa ]
+    branches: [ master, qa ]
   pull_request:
-    branches: [ main, qa ]
+    branches: [ master, qa ]
 
 # Horus Job
 jobs:
