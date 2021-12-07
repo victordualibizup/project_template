@@ -9,3 +9,51 @@ test_data: houses_test.csv
 
 # Variables
 target: SalePrice
+
+# Selected Model Features
+selected_features:
+  - HouseStyle
+  - BsmtFinType1
+  - TotalBsmtSF
+  - GarageArea
+  - LotFrontage
+  - SalePrice
+
+# Numeric Features
+numeric_features:
+  - TotalBsmtSF
+  - GarageArea
+  - LotFrontage
+
+# Scaled Features
+scaled_features:
+  - ScaledTotalBsmtSF
+  - ScaledGarageArea
+  - ScaledLotFrontage
+
+# Dropping Unused Features
+to_drop_unused_features:
+  - HouseStyle
+  - BsmtFinType1
+  - NewHouseStyle
+
+# House Style Variable
+house_style: HouseStyle
+new_house_style: NewHouseStyle
+one_story: 1Story
+two_story: 2Story
+
+# Other Variables
+bsm_type_1: BsmtFinType1
+lot_frontage: LotFrontage
+
+# Merge How Method
+left_merge: left
+
+# Data Split Configuration
+test_size: 0.25
+random_state: 16
+
+# Model Configuration
+n_estimators: 400
+model_random_state: 16
