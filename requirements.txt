@@ -33,3 +33,6 @@ pydantic==1.8.2
 
 # Scikit-Learn
 scikit-learn==1.0.1
+
+# Feature Engineering
+feature-engine==1.0.2
