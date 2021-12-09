@@ -1,9 +1,11 @@
-import pandas as pd
 from typing import Dict
+
+import pandas as pd
 from sklearn import metrics
+from sklearn.model_selection import train_test_split
+
 from houses_regression import data_manager, pipeline
 from houses_regression.config.core import config
-from sklearn.model_selection import train_test_split
 
 
 def generate_features(target: str) -> (pd.DataFrame, pd.Series):
@@ -19,7 +21,7 @@ def generate_features(target: str) -> (pd.DataFrame, pd.Series):
     """
     dataframe = data_manager.create_dataframe_from_s3(
         bucket=config.app_config.bucket_name,
-        key=config.app_config.train_features_file_name
+        key=config.app_config.train_features_file_name,
     )
 
     target_feature = dataframe[target]
@@ -63,7 +65,9 @@ def train_model(features_dict: Dict) -> Dict:
     return features_dict
 
 
-def create_features_dict(train_features: pd.DataFrame, target_feature: pd.DataFrame) -> Dict:
+def create_features_dict(
+    train_features: pd.DataFrame, target_feature: pd.DataFrame
+) -> Dict:
     """
     Creates a dict to hold the data splits and later types of objects from the train step.
 
@@ -83,14 +87,14 @@ def create_features_dict(train_features: pd.DataFrame, target_feature: pd.DataFr
         X,
         y,
         test_size=config.model_config.test_size,
-        random_state=config.model_config.random_state
+        random_state=config.model_config.random_state,
     )
 
     features_dict = {
         config.model_config.x_train: X_train,
         config.model_config.x_test: X_test,
         config.model_config.y_train: y_train,
-        config.model_config.y_test: y_test
+        config.model_config.y_test: y_test,
     }
 
     return features_dict

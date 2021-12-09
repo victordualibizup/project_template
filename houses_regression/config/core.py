@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from typing import List
+
 from pydantic import BaseModel
 from strictyaml import YAML, load
 
@@ -12,8 +13,8 @@ import houses_regression
 PACKAGE_ROOT = Path(houses_regression.__file__).resolve().parent
 ROOT = PACKAGE_ROOT.parent
 CONFIG_FILE_PATH = ROOT / "config.yml"
-prefix = '/opt/ml/'
-model_path = os.path.join(prefix, 'model')
+prefix = "/opt/ml/"
+model_path = os.path.join(prefix, "model")
 
 
 class AppConfig(BaseModel):

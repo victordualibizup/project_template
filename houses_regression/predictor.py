@@ -13,6 +13,7 @@ import traceback
 
 import flask
 import pandas as pd
+
 from houses_regression import data_manager, pipeline
 from houses_regression.config.core import config
 
@@ -25,8 +26,7 @@ class ScoringService(object):
         """Get the model object for this instance, loading it if it's not already loaded."""
         if cls.model == None:
             cls.model = data_manager.load_model_from_s3(
-                bucket=config.app_config.bucket_name,
-                key=config.model_config.model_name
+                bucket=config.app_config.bucket_name, key=config.model_config.model_name
             )
 
         return cls.model
@@ -51,7 +51,9 @@ app = flask.Flask(__name__)
 def ping():
     """Determine if the container is working and healthy. In this sample container, we declare
     it healthy if we can load the model successfully."""
-    health = ScoringService.get_model() is not None  # You can insert a health check here
+    health = (
+        ScoringService.get_model() is not None
+    )  # You can insert a health check here
 
     status = 200 if health else 404
     return flask.Response(response="\n", status=status, mimetype="application/json")
@@ -72,7 +74,9 @@ def transformation():
         data = pd.read_csv(s)
     else:
         return flask.Response(
-            response="This predictor only supports CSV data", status=415, mimetype="text/plain"
+            response="This predictor only supports CSV data",
+            status=415,
+            mimetype="text/plain",
         )
 
     print("Invoked with {} records".format(data.shape[0]))
