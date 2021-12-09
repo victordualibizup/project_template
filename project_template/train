@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
 from __future__ import print_function
+
+import os
 import pickle
 import sys
-import os
 
 
 # The function to execute the training.

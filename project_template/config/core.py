@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from pydantic import BaseModel
 from strictyaml import YAML, load
 
@@ -43,6 +44,7 @@ class Config(BaseModel):
 
 # Here we read and parse the config.yml file.
 # No need to alter anything from this point onwards
+
 
 def find_config_file() -> Path:
     """

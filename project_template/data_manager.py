@@ -1,7 +1,9 @@
-from project_template import aws_resources
-from io import StringIO
-import pandas as pd
 import pickle
+from io import StringIO
+
+import pandas as pd
+
+from project_template import aws_resources
 
 
 def create_dataframe_from_s3(*, bucket: str, key: str) -> pd.DataFrame:
@@ -16,8 +18,8 @@ def create_dataframe_from_s3(*, bucket: str, key: str) -> pd.DataFrame:
     A pandas dataframe from a csv.
     """
     obj = aws_resources.s3.get_object(Bucket=bucket, Key=key)
-    body = obj['Body']
-    csv_string = body.read().decode('utf-8')
+    body = obj["Body"]
+    csv_string = body.read().decode("utf-8")
 
     dataframe = pd.read_csv(StringIO(csv_string))
     return dataframe
@@ -69,8 +71,6 @@ def load_model_from_s3(*, bucket: str, key: str):
     """
 
     s3_resource = aws_resources.s3_resource
-    model = pickle.loads(
-        s3_resource.Bucket(bucket).Object(key).get()['Body'].read()
-    )
+    model = pickle.loads(s3_resource.Bucket(bucket).Object(key).get()["Body"].read())
 
     return model
