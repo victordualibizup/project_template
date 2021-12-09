@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from typing import List
 from pydantic import BaseModel
@@ -10,27 +11,25 @@ import houses_regression
 
 PACKAGE_ROOT = Path(houses_regression.__file__).resolve().parent
 ROOT = PACKAGE_ROOT.parent
-ARTIFACTS_DIR = ROOT / "artifacts"
-DATA_DIR = ARTIFACTS_DIR / "data"
-RAW_DATASET_DIR = DATA_DIR / "raw"
-PROCESSED_DATASET_DIR = DATA_DIR / "processed"
-TRAINED_MODEL_DIR = ARTIFACTS_DIR / "trained_models"
-PIPELINE_DIR = ARTIFACTS_DIR / "pipeline"
-METRICS_DIR = ARTIFACTS_DIR / "metrics"
 CONFIG_FILE_PATH = ROOT / "config.yml"
+prefix = '/opt/ml/'
+model_path = os.path.join(prefix, 'model')
 
 
 class AppConfig(BaseModel):
     author: str
     squad: str
     bucket_name: str
-    train_data: str
-    test_data: str
+    train_features_file_name: str
+    train_features_save_name: str
+    target_feature_save_name: str
 
 
 class ModelConfig(BaseModel):
+    model_name: str
     target: str
     selected_features: List
+    selected_features_pipeline: List
     numeric_features: List
     scaled_features: List
     to_drop_unused_features: List
@@ -38,6 +37,7 @@ class ModelConfig(BaseModel):
     new_house_style: str
     one_story: str
     two_story: str
+    other_house_style: str
     bsm_type_1: str
     lot_frontage: str
     left_merge: str
@@ -45,7 +45,13 @@ class ModelConfig(BaseModel):
     random_state: int
     n_estimators: int
     model_random_state: int
-
+    x_train: str
+    x_test: str
+    y_train: str
+    y_test: str
+    model_key: str
+    train_mae: str
+    test_mae: str
 
 
 class Config(BaseModel):

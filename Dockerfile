@@ -24,10 +24,10 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 # linking them together. Likewise, pip leaves the install caches populated which uses
 # a significant amount of space. These optimizations save a fair amount of space in the
 # image, which reduces start up time.
-COPY sg_custom_catboost/ /opt/program/sg_custom_catboost
-COPY test_dir /opt/ml
-COPY artifacts/ /opt/program/artifacts
-COPY requirements.txt config.yml setup.py README.md /opt/program/
+COPY houses_regression/ /opt/program/houses_regression
+COPY artifacts /opt/ml
+COPY .env requirements.txt config.yml setup.py README.md /opt/program/
+
 
 
 WORKDIR /opt/program
@@ -40,7 +40,7 @@ RUN pip install .
 
 ENV PYTHONUNBUFFERED=TRUE
 ENV PYTHONDONTWRITEBYTECODE=TRUE
-ENV PATH="/opt/program/sg_custom_catboost:${PATH}"
+ENV PATH="/opt/program/houses_regression:${PATH}"
 ENV PYTHONPATH "${PYTHONPATH}:/opt/program"
 
-WORKDIR /opt/program/sg_custom_catboost
+WORKDIR /opt/program/houses_regression

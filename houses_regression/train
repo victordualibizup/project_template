@@ -1,0 +1,62 @@
+#!/usr/bin/env python
+
+from __future__ import print_function
+import pickle
+import sys
+import os
+
+from houses_regression import data_manager, modelling
+from houses_regression.config.core import config, model_path
+
+
+def train():
+    """
+    The train function. Generates the model.
+    """
+
+    train_features, target_feature = modelling.generate_features(
+        target=config.model_config.target
+    )
+
+    data_manager.save_dataframe_to_s3(
+        dataframe=train_features,
+        bucket=config.app_config.bucket_name,
+        key=config.app_config.train_features_save_name
+    )
+
+    data_manager.save_dataframe_to_s3(
+        dataframe=target_feature,
+        bucket=config.app_config.bucket_name,
+        key=config.app_config.target_feature_save_name
+    )
+
+    features_dict = modelling.create_features_dict(
+        train_features=train_features,
+        target_feature=target_feature
+    )
+
+    trained_features_dict = modelling.train_model(
+        features_dict=features_dict
+    )
+
+    model = trained_features_dict[config.model_config.model_key]
+
+    with open(
+            os.path.join(
+                model_path,
+                config.model_config.model_name
+            ), 'wb') as out:
+        pickle.dump(model, out)
+    print('Training complete.')
+
+    data_manager.save_model_to_s3(
+        model=model,
+        bucket=config.app_config.bucket_name,
+        key=config.model_config.model_name
+    )
+
+
+if __name__ == '__main__':
+    train()
+    # A zero exit code causes the job to be marked a Succeeded.
+    sys.exit(0)
