@@ -1,46 +1,76 @@
+from project_template import aws_resources
+from io import StringIO
 import pandas as pd
-import joblib
+import pickle
 
 
-def load_dataset(file_name: str) -> pd.DataFrame:
+def create_dataframe_from_s3(*, bucket: str, key: str) -> pd.DataFrame:
     """
-
+    Return a dataframe from a csv stored in AWS S3.
     Parameters
     ----------
-    file_name (str): File's name.
-
+    bucket: Bucket name.
+    key: The file name
     Returns
     -------
-
+    A pandas dataframe from a csv.
     """
-    file_path = "enter/your/path/{}.csv".format(file_name)
-    dataframe = pd.read_csv(file_path)
+    obj = aws_resources.s3.get_object(Bucket=bucket, Key=key)
+    body = obj['Body']
+    csv_string = body.read().decode('utf-8')
+
+    dataframe = pd.read_csv(StringIO(csv_string))
     return dataframe
 
 
-def load_model(file_name: str):
+def save_dataframe_to_s3(*, dataframe: pd.DataFrame, bucket: str, key: str) -> None:
     """
-
+    Save dataframe into AWS S3 as .csv.
     Parameters
     ----------
-    file_name (str) The model's file name.
-
+    dataframe (pd.Dataframe): The dataframe to be saved.
+    bucket (str): Bucket name to save the dataframe.
+    key (str): The file name.
     Returns
     -------
-
     """
 
-    file_path = "enter/your/path/{}.pkl".format(file_name)
-    trained_model = joblib.load(filename=file_path)
-    return trained_model
+    csv_buffer = StringIO()
+    dataframe.to_csv(csv_buffer)
+    s3_resource = aws_resources.s3_resource
+    s3_resource.Object(bucket, key).put(Body=csv_buffer.getvalue())
 
 
-def save_model(file_name: str):
+def save_model_to_s3(*, model, bucket: str, key: str) -> None:
     """
-    Saves the trained model in the specified path.
+    Saves a model as pickle in AWS S3.
+    Parameters
+    ----------
+    model: The model to be saved.
+    bucket (str): Bucket name to save the dataframe.
+    key (str): The file name.
     Returns
     -------
-
     """
-    save_path = "enter/your/path/{}.pkl".format(file_name)
-    joblib.dump(file_name, save_path)
+    pickle_byte_obj = pickle.dumps(model)
+    s3_resource = aws_resources.s3_resource
+    s3_resource.Object(bucket, key).put(Body=pickle_byte_obj)
+
+
+def load_model_from_s3(*, bucket: str, key: str):
+    """
+    Loads the model pickle from AWS S3.
+    Parameters
+    ----------
+    bucket (str): Bucket name to save the dataframe.
+    key (str): The file name.
+    Returns
+    -------
+    """
+
+    s3_resource = aws_resources.s3_resource
+    model = pickle.loads(
+        s3_resource.Bucket(bucket).Object(key).get()['Body'].read()
+    )
+
+    return model
