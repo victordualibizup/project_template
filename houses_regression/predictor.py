@@ -69,7 +69,7 @@ def transformation():
     if flask.request.content_type == "text/csv":
         data = flask.request.data.decode("utf-8")
         s = io.StringIO(data)
-        data = pd.read_csv(s, header=None)
+        data = pd.read_csv(s)
     else:
         return flask.Response(
             response="This predictor only supports CSV data", status=415, mimetype="text/plain"
