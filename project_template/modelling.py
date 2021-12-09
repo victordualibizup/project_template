@@ -1,5 +1,4 @@
 import pandas as pd
-from project_template import data_manager
 
 
 def generate_features(file_path: str):
