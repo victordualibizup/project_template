@@ -1,3 +1,5 @@
+from sklearn.base import BaseEstimator, TransformerMixin
+
 
 def create_squared_column():
     """
@@ -17,4 +19,8 @@ def create_count_string_variable():
     -------
 
     """
+    pass
+
+
+class NewClassTransformer(BaseEstimator, TransformerMixin):
     pass
