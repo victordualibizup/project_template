@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Tuple
 
 import pandas as pd
 from sklearn import metrics
@@ -8,7 +8,7 @@ from houses_regression import data_manager, pipeline
 from houses_regression.config.core import config
 
 
-def generate_features(target: str) -> (pd.DataFrame, pd.Series):
+def generate_features(target: str) -> Tuple[pd.DataFrame, pd.Series]:
     """
     Creates the features for model estimation.
     Parameters
